@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "es6-promise": "^4.2.2",
+    "gulp-git": "^2.5.1",
     "lunr": "^2.1.5",
     "whatwg-fetch": "^2.0.3"
   }

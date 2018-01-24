@@ -1,5 +1,4 @@
-#baseURL = "http://gbyukg.github.io"
-#baseURL = "https://luke-zhang.netlify.com"
+baseURL = "https://gbyukg.github.io"
 languageCode = "zh-cn"
 title = "World of Forks"
 metaDataFormat = "yaml"

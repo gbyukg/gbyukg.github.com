@@ -19,6 +19,7 @@ const pngquant = require("imagemin-pngquant");
 const cp = require("child_process");
 const fs = require("fs");
 const toml = require("toml");
+const git = require('gulp-git')
 
 const bs = require("browser-sync").create();
 
@@ -194,6 +195,21 @@ gulp.task("build", ["clean"], cb => {
   env = "prod";
   run("build:dev", "purifycss", ["rev", "htmlmin"], "ref", cb);
 });
+
+gulp.task("deploy", ['ch-master', 'build'], cb => {
+    run("ch-source")
+})
+
+gulp.task("ch-master", () => {
+  git.checkout('master', function (err) {
+    if (err) throw err;
+  });
+})
+gulp.task("ch-source", () => {
+  git.checkout('source', function (err) {
+    if (err) throw err;
+  });
+})
 
 gulp.task("serve", ["build:dev"], () => {
   bs.init({
