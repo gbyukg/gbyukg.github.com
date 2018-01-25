@@ -3,10 +3,19 @@ languageCode = "zh-cn"
 title = "World of Forks"
 metaDataFormat = "yaml"
 
-theme = "canoe"
+#theme = "canoe"
+# Code highlighting setting
+pygmentsStyle = "monokai"
+pygmentsCodefences = true
+pygmentsCodefencesGuessSyntax = true
+
+[blackfriday]
+  hrefTargetBlank = true
+  fractions = false
+  extensions = ["laxHtmlBlocks","noEmptyLineBeforeBlock","hardLineBreak"]
 
 # use typora to editor new posts
-newContentEditor = "typora"
+newContentEditor = "vim"
 
 # last mod time support
 enableGitInfo = true
@@ -84,17 +93,8 @@ publishDir = "docs"
 
 #  友情链接 Your Friend's blog links
 [[menu.friend]]
-  name = "Frantic1048"
-  url = "https://frantic1048.logdown.com/"
-
-[[menu.friend]]
-  name = "HclMaster"
-  url = "https://hclmaster.github.io/"
-
-[[menu.friend]]
-  name = "WANG Hsü-Tung"
-  url = "https://whst.github.io/"
-
+  name = "gbyukg"
+  url = "http://www.cnblogs.com/gbyukg"
 
 # 社交账号 Social Network
 [[menu.social]]
@@ -111,7 +111,3 @@ publishDir = "docs"
   pre = "<svg class='svg-icons svg-icons-facebook'><use xlink:href='#svg-icons-facebook'></use></svg>"
   name = "Facebook"
   url = "https://www.facebook.com/gbyukg"
-
-
-[blackfriday]
-  extensions = ["laxHtmlBlocks","noEmptyLineBeforeBlock","hardLineBreak"]

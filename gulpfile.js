@@ -29,7 +29,7 @@ const siteConf = toml.parse(fs.readFileSync("./config.toml"));
 const srcDir = "assets";
 
 const devDir = ".tmp";
-const prodDir = siteConf.publishDir || "public";
+const prodDir = siteConf.publishDir || "docs";
 const themeDir = "themes/canoe";
 
 let env = "dev"; // dev , prod , theme
