@@ -10,10 +10,11 @@ draft: true
 
 ## 
 
-{{<admonition type="warning">}}
-
-Warning message
-
+{{<admonition title="tip" type="tip">}}
+tips
+warngin
+info
+note
 {{</admonition>}}
 <!--more-->
 

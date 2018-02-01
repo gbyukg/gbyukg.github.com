@@ -1,12 +1,13 @@
 .article {
   font-size: 15px;
-  line-height: 2em;
+  line-height: 1.5em;
   blockquote {
+    font-style: italic;
     margin: $gutter-width 0;
     padding: 0 10px 0 16px;
-    border-left: 2px solid #3f51b5;
+    border-left: 3px solid #3f51b5;
     color: #4d4d4d;
-    background: #fafafa;
+    background: #e6e0e075;
   }
   h1 {
     font-size: 30px;
@@ -32,8 +33,8 @@
     margin: 1.2em 0;
   }
 
-  h4 {
-    font-weight: 400;
+  h5 {
+    font-size: 18px;
     font-style: italic;
   }
 
@@ -126,7 +127,8 @@
   ul,
   ol {
     padding-left: 0;
-    margin: 1.2em 0;
+    margin: 0;
+    // margin: 1.2em 0;
     /* list-style-position: inside; */
   }
 
@@ -234,6 +236,14 @@
     }
     background: $admonition-note-bcolor;
     color: #fff;
+    font-style: italic;
+    font-size: small;
+    &.tip {
+      background:#77a579;
+    }
+    &.note {
+      background:#9a9393;
+    }
     &.warning {
       background: $admonition-warning-bcolor;
     }
