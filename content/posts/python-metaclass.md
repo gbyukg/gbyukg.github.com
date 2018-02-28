@@ -1,10 +1,14 @@
 ---
 title: "Python 中的 Metaclass"
 date: 2018-01-29T13:13:44+08:00
+keywords:
+  - Python
+  - metaclass
+  - 元类
 tags:
   - Python
 categories:
-  - Python
+  - 编程
 ---
 
 Metaclass 作为 Python 中的一种高级用法，开发人员平时很少会直接使用到它。然而一旦我们真正掌握了 metaclass，不仅会让我们编写出更高效的代码，而且会对 Python 中的类会有更加深刻的理解。

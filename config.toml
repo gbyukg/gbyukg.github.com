@@ -109,6 +109,6 @@ publishDir = "docs"
 
 # 要放到最后， 否则 post 页面侧边导航栏不出来。。。
 [blackfriday]
-  hrefTargetBlank = true
+  hrefTargetBlank = false
   fractions = false
   extensions = ["laxHtmlBlocks","noEmptyLineBeforeBlock","hardLineBreak"]
