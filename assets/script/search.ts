@@ -1,5 +1,6 @@
 const baseURL = window["baseURL"];
 // don't install @types/lunr, it's obsoletely!
+import onmount from "onmount";
 import lunr from "lunr";
 import U from "./util";
 import animate, { easeOutCubic } from "./animate";

@@ -2,6 +2,7 @@ baseURL = "https://gbyukg.github.io"
 languageCode = "zh-cn"
 title = "World of Forks"
 metaDataFormat = "yaml"
+# 授人以鱼，不如授之以渔
 
 theme = "canoe"
 # Code highlighting setting
@@ -62,13 +63,18 @@ publishDir = "docs"
 [[menu.main]]
     name = "Home"
     # associated with displaying order.
-    weight = 1 
+    weight = 1
     url = "/"
 
 [[menu.main]]
     name = "Archive"
     weight = 2
     url = "/archive/"
+
+# [[menu.main]]
+    # name = "Cheatsheets"
+    # weight = 3
+    # url = "/cheatsheets/"
 
 [[menu.main]]
     name = "About"

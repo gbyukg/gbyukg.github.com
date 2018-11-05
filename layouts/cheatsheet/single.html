@@ -1,0 +1,38 @@
+{{ partial "header.html" . }}
+<!---->
+{{ $tocable := and (index .Params "toc" | default true) (gt .WordCount 400) }}
+<!---->
+{{ $tocable := and (ne "" (print .TableOfContents)) $tocable }}
+<main role="main" class="post-content MarkdownBody -wrapified" data-js-main-body>
+  <div class="h2-section -three-column">
+    <div class="body h3-section-list -three-column" style="position: relative; height: 736px;">
+      {{.Content }}
+
+              <div class="card-content">
+
+                <article class="article">
+                  {{.Content }}
+                </article>
+
+              </div>
+              {{ with .Params.tags }}
+              <div class="card-action card-action-links">
+                {{ range . }}
+                <a class="btn btn-secondary" href="{{ $.Site.BaseURL }}/tags/{{ . | urlize }}">{{ . }}</a> {{ end }}
+              </div>
+              {{ end }}
+              <div class="card-action">
+                {{ partial "comment.html" . }}
+              </div>
+
+
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  {{ partialCached "footer.html" . }}
+</main>
+
+{{partialCached "script.html" .}}
