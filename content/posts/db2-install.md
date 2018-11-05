@@ -6,7 +6,6 @@ tags:
   - DevOps
   - 数据库
 categories:
-  - DevOps
   - DataBase
 ---
 

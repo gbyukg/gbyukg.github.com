@@ -1,6 +1,6 @@
 ---
 title: "CentOS7 下编译安装 Apache2.4 + PHP5.6"
-date: 2018-02-02T16:52:47+08:00
+date: 2016-02-02T16:52:47+08:00
 keywords:
   - php
   - apache
@@ -15,8 +15,6 @@ tags:
   - CentOS
 categories:
   - DevOps
-  - Linux
-  - PHP
 ---
 
 - Apache 是迄今为止全世界中使用最广泛的 WEB 服务器软件，它快速、可靠并且可通过简单的API扩充，将 PHP，Python 等解释器编译到服务器中。

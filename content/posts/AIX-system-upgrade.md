@@ -4,8 +4,7 @@ date: 2018-02-22T14:25:05+08:00
 tags:
   - AIX
 categories:
-  - AIX
-  - DevOps
+  - System
 ---
 
 AIX 系统升级还是比较方便，本文将简单介绍如何通过 AIX 的图形界面工具 `smitty` 来安装。

@@ -7,6 +7,7 @@ tags:
   - Ubuntu
 categories:
   - DevOps
+  - System
 ---
 
 ## Spectre/Meltdown 漏洞

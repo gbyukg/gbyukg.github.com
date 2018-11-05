@@ -1,6 +1,6 @@
 ---
 title: "Linux 用户和组"
-date: 2018-02-23T18:56:52+08:00
+date: 2016-03-23T18:56:52+08:00
 keywords:
   - useradd
   - groupadd
@@ -15,9 +15,9 @@ keywords:
   - 用户
 tags:
   - CentOS
-categories:
   - Linux
-  - DevOps
+categories:
+  - System
 ---
 
 用户其实就是系统中的账号，只有拥有了账号，我们才可以登录到系统中，执行相应的操作。每个用户又必须属于一个 **主组** 和一个或多个 **其他组**。用户和组又是构成 Linux 权限管理的基础，因此了解用户和组，对学习 Linux 至关重要。
@@ -35,7 +35,7 @@ categories:
 - `id` 查看用户信息
 - `ulimit` 用户资源限制相关操作
 
-本文所使用的系统环境为 `CentOS 7.4`。
+本文所使用的系统环境为 `CentOS 7.4`，并且所有命令都运行在 root 用户下，如果您没有登录 root 用户的权限，则至少有 `sudo` 权限，并在所有命令前使用 `sudo` 命令。
 
 ## 用户管理
 在这一节中，我们将学习如果创建新用户，查看用户信息，修改用该信息及密码，以及与用户相关的以为文件。
@@ -65,11 +65,11 @@ categories:
 **创建一个名为 luke1 的新用户：**
 
 ``` bash
-[root@localhost ~]# useradd luke1
+[root@localhost ~]$ useradd luke1
 ```
 默认情况下，等同于：
 ``` sh
-[root@localhost ~]# useradd -m -U luke1
+[root@localhost ~]$ useradd -m -U luke1
 ```
 该命令将会执行以下几个步骤：
   - 创建一个名为 luke1。
@@ -79,7 +79,7 @@ categories:
 
 我们可以使用命令 `id` 来查看用户详细信息：
 ``` sh
-[root@localhost ~]# id luke1
+[root@localhost ~]$ id luke1
 uid=1000(luke1) gid=1000(luke1) groups=1000(luke1)
 ```
 通过该命令，可以观察到，我们先创建的用户 UID 为 1000，新创建的组 ID 也为 1000.
@@ -88,7 +88,7 @@ uid=1000(luke1) gid=1000(luke1) groups=1000(luke1)
 **指定其他路径作为新创建用户的根目录为：**
 
 ``` sh
-[root@localhost ~]# useradd -d /var/www/ luke2
+[root@localhost ~]$ useradd -d /var/www/ luke2
 ```
 该命令会在 `/var` 目录下创建一个 `www` 文件夹，并将目录 `/var/www` 指定为 luke2 用户的根目录。
 </br>
@@ -96,7 +96,7 @@ uid=1000(luke1) gid=1000(luke1) groups=1000(luke1)
 **不创建 home 目录**
 
 ``` sh
-[root@localhost ~]# useradd -M luke3
+[root@localhost ~]$ useradd -M luke3
 ```
 不会为 luke3 用户创建根目录，但注意，这并不代表 luke3 用户没有跟目录，只是根目录没有被创建罢了。
 </br>
@@ -104,8 +104,8 @@ uid=1000(luke1) gid=1000(luke1) groups=1000(luke1)
 **指定新创建用户的 UID**
 
 ``` sh
-[root@localhost ~]# useradd -u 1005 luke4
-[root@localhost /]# id luke4
+[root@localhost ~]$ useradd -u 1005 luke4
+[root@localhost /]$ id luke4
 uid=1005(luke4) gid=1005(luke4) groups=1005(luke4)
 ```
 新创建用户的 UID 为 1005
@@ -115,15 +115,15 @@ uid=1005(luke4) gid=1005(luke4) groups=1005(luke4)
 **指定用户的主组**
 
 ``` sh
-[root@localhost /]# useradd -N -g 0 luke5
-[root@localhost /]# id luke5
+[root@localhost /]$ useradd -N -g 0 luke5
+[root@localhost /]$ id luke5
 uid=1006(luke5) gid=0(root) groups=0(root)
 ```
 `-N` 选项指明了不会创建 luke5 组，而是将新用户添加到 0（root） 组下。事实上，当指定了 `-g` 参数时，`-N` 可以忽略。
 同时，我们注意到，luke5 用户的 UID 为 1006，实在 luke4 的 UID 基础上加 1 得到的。
 ``` sh
-[root@localhost /]# useradd -N luke5-b
-[root@localhost /]# id luke5-b
+[root@localhost /]$ useradd -N luke5-b
+[root@localhost /]$ id luke5-b
 uid=1007(luke5-b) gid=100(users) groups=100(users)
 ```
 可以看到，新创建的用户 luke5-b 被添加到系统默认用户组 users 中。
@@ -132,8 +132,8 @@ uid=1007(luke5-b) gid=100(users) groups=100(users)
 **将新用户添加到多个组中**
 
 ``` sh
-[root@localhost /]# useradd -u 1010 -g luke1 -G luke2,luke3,luke4 -d /var/luke6/ -m luke6
-[root@localhost /]# id luke6
+[root@localhost /]$ useradd -u 1010 -g luke1 -G luke2,luke3,luke4 -d /var/luke6/ -m luke6
+[root@localhost /]$ id luke6
 uid=1010(luke6) gid=1002(luke1) groups=1002(luke1),1003(luke2),1004(luke3),1005(luke4)
 ```
 指定 luke6 主组 luke1，该用户同时属于 luke2，luke3 和 luke4 组。并创建 `/var/luke6/` 作为其 home 目录。
@@ -141,15 +141,15 @@ uid=1010(luke6) gid=1002(luke1) groups=1002(luke1),1003(luke2),1004(luke3),1005(
 
 **修改 login shell**
 ``` sh
-[root@localhost /]# useradd -s /bin/bash -c "Testing user" luke7
+[root@localhost /]$ useradd -s /bin/bash -c "Testing user" luke7
 ```
 指定 luke7 用户默认的登录 SHELL 为 bash，并为该用户添加了简短的注释。
 </br>
 
 **指定用户过期日期**
 ``` sh
-[root@localhost /]# useradd -e 2018-02-24 luke8
-[root@localhost /]# chage -l luke8
+[root@localhost /]$ useradd -e 2018-02-24 luke8
+[root@localhost /]$ chage -l luke8
 Last password change					: Feb 23, 2018
 Password expires					: never
 Password inactive					: never
@@ -602,8 +602,8 @@ Number of days of warning before password expires	: 45
 #### 示例：
 **删除用户**
 ``` sh
-[root@localhost /]# userdel luke8
-[root@localhost /]# id luke8
+[root@localhost /]$ userdel luke8
+[root@localhost /]$ id luke8
 id: luke8: no such user
 ```
 用户 luke8 已经不在存在了。
@@ -612,18 +612,18 @@ id: luke8: no such user
 **删除用户的同时，删除其对用的 home 目录和 mail**
 在上面的例子中，我们仅仅是删除了 luke8 用户，但其 home 目录 `/home/luke8/` 及其 mail 文件并没有被移除
 ``` sh
-[root@localhost /]# ls -l /home/luke8/
+[root@localhost /]$ ls -l /home/luke8/
 total 0
 ```
 通过 `ls` 命令，我们仍然可以访问到 luke8 用户的 home 目录。
 如果想要在删除用户时，同时将他的 home 目录一起删掉，可以在 `userdel` 命令中指定 `-r` 选项
 ``` sh
-[root@localhost /]# useradd luke8
+[root@localhost /]$ useradd luke8
 useradd: warning: the home directory already exists.
 Not copying any file from skel directory into it.
 Creating mailbox file: File exists
-[root@localhost /]# userdel -r luke8
-[root@localhost /]# ls -l /home/luke8
+[root@localhost /]$ userdel -r luke8
+[root@localhost /]$ ls -l /home/luke8
 ls: cannot access /home/luke8: No such file or directory
 ```
 我们首先重新创建 luke8 user，系统会返回一些警告信息，提示 luke8 用户要使用的 home 目录已经存在了，这里可以直接忽略警告。
