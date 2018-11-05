@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jenkins on World of Forks</title>
+    <link>https://gbyukg.github.io/tags/jenkins/</link>
+    <description>Recent content in Jenkins on World of Forks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 06 Mar 2018 00:33:26 +0800</lastBuildDate>
+    
+	<atom:link href="https://gbyukg.github.io/tags/jenkins/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Jenkins 定义式 Pipeline 语法</title>
+      <link>https://gbyukg.github.io/posts/jenkins-pipeline/</link>
+      <pubDate>Tue, 06 Mar 2018 00:33:26 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/jenkins-pipeline/</guid>
+      <description>前言 在 DevOps 概念大行其道的今天，持续部署（CD）作为其核心概念之一，逐渐被各个企业接纳并采用。简单来说，持续部署就是指开发人员从提交代码到代码仓</description>
+    </item>
+    
+  </channel>
+</rss>

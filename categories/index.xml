@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on World of Forks</title>
+    <link>https://gbyukg.github.io/categories/</link>
+    <description>Recent content in Categories on World of Forks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    
+	<atom:link href="https://gbyukg.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Database</title>
+      <link>https://gbyukg.github.io/categories/database/</link>
+      <pubDate>Wed, 31 Jan 2018 16:16:09 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/categories/database/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Devops</title>
+      <link>https://gbyukg.github.io/categories/devops/</link>
+      <pubDate>Tue, 06 Mar 2018 00:33:26 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/categories/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Programming</title>
+      <link>https://gbyukg.github.io/categories/programming/</link>
+      <pubDate>Wed, 07 Mar 2018 17:43:20 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/categories/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>System</title>
+      <link>https://gbyukg.github.io/categories/system/</link>
+      <pubDate>Thu, 22 Feb 2018 14:25:05 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/categories/system/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Programming on World of Forks</title>
+    <link>https://gbyukg.github.io/categories/programming/</link>
+    <description>Recent content in Programming on World of Forks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 07 Mar 2018 17:43:20 +0800</lastBuildDate>
+    
+	<atom:link href="https://gbyukg.github.io/categories/programming/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python Requests 库</title>
+      <link>https://gbyukg.github.io/posts/python-requests/</link>
+      <pubDate>Wed, 07 Mar 2018 17:43:20 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/python-requests/</guid>
+      <description>requests 是一个款基于 urllib3 开发的 HTTP 开源库，该库为我们提供了丰富的 HTTP 请求相关函数，主要功能包括： 支持发送多种类型的请求，包括 GET、POST、PUT、D</description>
+    </item>
+    
+    <item>
+      <title>Python 中的 Metaclass</title>
+      <link>https://gbyukg.github.io/posts/python-metaclass/</link>
+      <pubDate>Mon, 29 Jan 2018 13:13:44 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/python-metaclass/</guid>
+      <description>Metaclass 作为 Python 中的一种高级用法，开发人员平时很少会直接使用到它。然而一旦我们真正掌握了 metaclass，不仅会让我们编写出更高效的代码，而且会对</description>
+    </item>
+    
+    <item>
+      <title>Python设计模式之 - 单例模式</title>
+      <link>https://gbyukg.github.io/posts/design-patterns/</link>
+      <pubDate>Thu, 25 Jan 2018 22:52:27 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/design-patterns/</guid>
+      <description>代码写的越多，就愈发对代码的结构要求更多，常常会因为如何实现一个类或是方法而纠结几个小时。编码，不仅仅是为了完成某个功能，它更像是一种艺术，</description>
+    </item>
+    
+  </channel>
+</rss>

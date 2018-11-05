@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>System on World of Forks</title>
+    <link>https://gbyukg.github.io/categories/system/</link>
+    <description>Recent content in System on World of Forks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 22 Feb 2018 14:25:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://gbyukg.github.io/categories/system/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AIX System Upgrade</title>
+      <link>https://gbyukg.github.io/posts/aix-system-upgrade/</link>
+      <pubDate>Thu, 22 Feb 2018 14:25:05 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/aix-system-upgrade/</guid>
+      <description>AIX 系统升级还是比较方便，本文将简单介绍如何通过 AIX 的图形界面工具 smitty 来安装。 系统环境： 当前系统版本为： 7100-03-05-1524 目标版本为：7100-04-02-161</description>
+    </item>
+    
+    <item>
+      <title>为系统安装 Spectre/Meltdown 补丁</title>
+      <link>https://gbyukg.github.io/posts/spectre-meltdown-for-aix/</link>
+      <pubDate>Thu, 22 Feb 2018 10:39:34 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/spectre-meltdown-for-aix/</guid>
+      <description>Spectre/Meltdown 漏洞 2018 新年伊始，Google 安全研究团队就爆出了英特尔处理器芯片的两个重要漏洞 Spectre 和 Meltdown。黑客可以通过这些漏洞获取系统中的一些机</description>
+    </item>
+    
+    <item>
+      <title>Linux 用户和组</title>
+      <link>https://gbyukg.github.io/posts/linux-user/</link>
+      <pubDate>Wed, 23 Mar 2016 18:56:52 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/linux-user/</guid>
+      <description>&lt;p&gt;用户其实就是系统中的账号，只有拥有了账号，我们才可以登录到系统中，执行相应的操作。每个用户又必须属于一个 &lt;strong&gt;主组&lt;/strong&gt; 和一个或多个 &lt;strong&gt;其他组&lt;/strong&gt;。用户和组又是构成 Linux 权限管理的基础，因此了解用户和组，对学习 Linux 至关重要。&lt;br /&gt;
+&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;本文意在向大家简单介绍如何在 Linux 下通过命令行的方式对用户和组进行操作。通过该文的讲解，你将能够掌握到以下命令：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;useradd&lt;/code&gt; 创建新用户&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;passwd&lt;/code&gt; 和 &lt;code&gt;chpasswd&lt;/code&gt; 修改用户密码&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;usermod&lt;/code&gt; 修改用户属性&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;chage&lt;/code&gt; 修改用户已日期相关信息&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;userdel&lt;/code&gt; 删除用户&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;groupadd&lt;/code&gt; 创建组&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;groupdel&lt;/code&gt;删除组&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;id&lt;/code&gt; 查看用户信息&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ulimit&lt;/code&gt; 用户资源限制相关操作&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;本文所使用的系统环境为 &lt;code&gt;CentOS 7.4&lt;/code&gt;，并且所有命令都运行在 root 用户下，如果您没有登录 root 用户的权限，则至少有 &lt;code&gt;sudo&lt;/code&gt; 权限，并在所有命令前使用 &lt;code&gt;sudo&lt;/code&gt; 命令。&lt;/p&gt;
+
+&lt;h2 id=&#34;用户管理&#34;&gt;用户管理&lt;/h2&gt;
+
+&lt;p&gt;在这一节中，我们将学习如果创建新用户，查看用户信息，修改用该信息及密码，以及与用户相关的以为文件。&lt;/p&gt;
+
+&lt;h3 id=&#34;useradd-创建用户&#34;&gt;&lt;code&gt;useradd&lt;/code&gt; 创建用户&lt;/h3&gt;
+
+&lt;p&gt;在 Linux 下，我们可以通过命令 &lt;code&gt;useradd&lt;/code&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; 来创建一个新用户，其格式为 &lt;code&gt;useradd [options] LOGIN&lt;/code&gt;。 它可以接受一个或者多个参数，下面列出了一些常用的参数：&lt;br /&gt;
+&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

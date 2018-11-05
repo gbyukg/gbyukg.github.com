@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Aix on World of Forks</title>
+    <link>https://gbyukg.github.io/tags/aix/</link>
+    <description>Recent content in Aix on World of Forks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 22 Feb 2018 14:25:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://gbyukg.github.io/tags/aix/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AIX System Upgrade</title>
+      <link>https://gbyukg.github.io/posts/aix-system-upgrade/</link>
+      <pubDate>Thu, 22 Feb 2018 14:25:05 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/aix-system-upgrade/</guid>
+      <description>AIX 系统升级还是比较方便，本文将简单介绍如何通过 AIX 的图形界面工具 smitty 来安装。 系统环境： 当前系统版本为： 7100-03-05-1524 目标版本为：7100-04-02-161</description>
+    </item>
+    
+    <item>
+      <title>为系统安装 Spectre/Meltdown 补丁</title>
+      <link>https://gbyukg.github.io/posts/spectre-meltdown-for-aix/</link>
+      <pubDate>Thu, 22 Feb 2018 10:39:34 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/spectre-meltdown-for-aix/</guid>
+      <description>Spectre/Meltdown 漏洞 2018 新年伊始，Google 安全研究团队就爆出了英特尔处理器芯片的两个重要漏洞 Spectre 和 Meltdown。黑客可以通过这些漏洞获取系统中的一些机</description>
+    </item>
+    
+  </channel>
+</rss>

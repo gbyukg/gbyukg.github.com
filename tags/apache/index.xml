@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Apache on World of Forks</title>
+    <link>https://gbyukg.github.io/tags/apache/</link>
+    <description>Recent content in Apache on World of Forks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 02 Feb 2016 16:52:47 +0800</lastBuildDate>
+    
+	<atom:link href="https://gbyukg.github.io/tags/apache/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CentOS7 下编译安装 Apache2.4 &#43; PHP5.6</title>
+      <link>https://gbyukg.github.io/posts/compile-php-apache/</link>
+      <pubDate>Tue, 02 Feb 2016 16:52:47 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/compile-php-apache/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;Apache 是迄今为止全世界中使用最广泛的 WEB 服务器软件，它快速、可靠并且可通过简单的API扩充，将 PHP，Python 等解释器编译到服务器中。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;PHP 是最流行的 WEB 开发语言&lt;strong&gt;之一&lt;/strong&gt;，它简单，易上手，尤其是 PHP7 的发布，对 PHP 的性能有了质的飞跃。并且 PHP 是世界上最好的语言（来打我呀🤣）&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;虽然各种发行版的 Linux 系统为我们提供了很方便的包管理工具来帮助我们快速安装 PHP 和 Apache，比如 Ubunt 系统的 &lt;code&gt;apt&lt;/code&gt;，RedHat 系列的 &lt;code&gt;yum&lt;/code&gt;。这些工具使用起来简单便捷，只需通过简单的几行命令，即可快速搭建出 PHP + Apache 的 WEB 环境，最重要的是，这些工具能够自动为我们处理最令人恼火的包依赖问题。通常情况下，使用包管理工具来安装这些中间件，是比较明智的选择，如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 可以快速安装 apache 和 php
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;sudo yum install httpd php -y&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

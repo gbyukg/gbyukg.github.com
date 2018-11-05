@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/python-requests/</loc>
+    <lastmod>2018-03-07T17:43:20+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/jenkins-pipeline/</loc>
+    <lastmod>2018-03-06T00:33:26+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/aix-system-upgrade/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/spectre-meltdown-for-aix/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/db2-install/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/python-metaclass/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/design-patterns/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/archive/</loc>
+    <lastmod>2018-01-24T13:00:12+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/about/</loc>
+    <lastmod>2018-01-24T13:00:12+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/linux-user/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/compile-php-apache/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/aix/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/apache/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/categories/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/centos/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/categories/database/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/db2/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/design-patterns/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/devops/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/categories/devops/</loc>
+    <lastmod>2018-03-06T00:33:26+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/jenkins/</loc>
+    <lastmod>2018-03-06T00:33:26+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/linux/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/php/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/posts/</loc>
+    <lastmod>2018-03-07T17:43:20+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/categories/programming/</loc>
+    <lastmod>2018-03-07T17:43:20+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/python/</loc>
+    <lastmod>2018-03-07T17:43:20+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/categories/system/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/ubuntu/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/</loc>
+    <lastmod>2018-03-07T17:43:20+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://gbyukg.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <lastmod>2018-02-28T21:27:58+08:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

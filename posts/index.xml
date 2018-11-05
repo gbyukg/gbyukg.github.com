@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on World of Forks</title>
+    <link>https://gbyukg.github.io/posts/</link>
+    <description>Recent content in Posts on World of Forks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 07 Mar 2018 17:43:20 +0800</lastBuildDate>
+    
+	<atom:link href="https://gbyukg.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python Requests 库</title>
+      <link>https://gbyukg.github.io/posts/python-requests/</link>
+      <pubDate>Wed, 07 Mar 2018 17:43:20 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/python-requests/</guid>
+      <description>requests 是一个款基于 urllib3 开发的 HTTP 开源库，该库为我们提供了丰富的 HTTP 请求相关函数，主要功能包括： 支持发送多种类型的请求，包括 GET、POST、PUT、D</description>
+    </item>
+    
+    <item>
+      <title>Jenkins 定义式 Pipeline 语法</title>
+      <link>https://gbyukg.github.io/posts/jenkins-pipeline/</link>
+      <pubDate>Tue, 06 Mar 2018 00:33:26 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/jenkins-pipeline/</guid>
+      <description>前言 在 DevOps 概念大行其道的今天，持续部署（CD）作为其核心概念之一，逐渐被各个企业接纳并采用。简单来说，持续部署就是指开发人员从提交代码到代码仓</description>
+    </item>
+    
+    <item>
+      <title>AIX System Upgrade</title>
+      <link>https://gbyukg.github.io/posts/aix-system-upgrade/</link>
+      <pubDate>Thu, 22 Feb 2018 14:25:05 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/aix-system-upgrade/</guid>
+      <description>AIX 系统升级还是比较方便，本文将简单介绍如何通过 AIX 的图形界面工具 smitty 来安装。 系统环境： 当前系统版本为： 7100-03-05-1524 目标版本为：7100-04-02-161</description>
+    </item>
+    
+    <item>
+      <title>为系统安装 Spectre/Meltdown 补丁</title>
+      <link>https://gbyukg.github.io/posts/spectre-meltdown-for-aix/</link>
+      <pubDate>Thu, 22 Feb 2018 10:39:34 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/spectre-meltdown-for-aix/</guid>
+      <description>Spectre/Meltdown 漏洞 2018 新年伊始，Google 安全研究团队就爆出了英特尔处理器芯片的两个重要漏洞 Spectre 和 Meltdown。黑客可以通过这些漏洞获取系统中的一些机</description>
+    </item>
+    
+    <item>
+      <title>DB2 大版本升级</title>
+      <link>https://gbyukg.github.io/posts/db2-install/</link>
+      <pubDate>Wed, 31 Jan 2018 16:16:09 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/db2-install/</guid>
+      <description>一不小心，又到了 DB2 升级的时候了😂 。每次升级过程中总是会遇到各种各样的升级问题，这次终于下定决心记录下所有升级步骤，以便供下次升级参考使用。 #</description>
+    </item>
+    
+    <item>
+      <title>Python 中的 Metaclass</title>
+      <link>https://gbyukg.github.io/posts/python-metaclass/</link>
+      <pubDate>Mon, 29 Jan 2018 13:13:44 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/python-metaclass/</guid>
+      <description>Metaclass 作为 Python 中的一种高级用法，开发人员平时很少会直接使用到它。然而一旦我们真正掌握了 metaclass，不仅会让我们编写出更高效的代码，而且会对</description>
+    </item>
+    
+    <item>
+      <title>Python设计模式之 - 单例模式</title>
+      <link>https://gbyukg.github.io/posts/design-patterns/</link>
+      <pubDate>Thu, 25 Jan 2018 22:52:27 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/design-patterns/</guid>
+      <description>代码写的越多，就愈发对代码的结构要求更多，常常会因为如何实现一个类或是方法而纠结几个小时。编码，不仅仅是为了完成某个功能，它更像是一种艺术，</description>
+    </item>
+    
+    <item>
+      <title>Linux 用户和组</title>
+      <link>https://gbyukg.github.io/posts/linux-user/</link>
+      <pubDate>Wed, 23 Mar 2016 18:56:52 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/linux-user/</guid>
+      <description>&lt;p&gt;用户其实就是系统中的账号，只有拥有了账号，我们才可以登录到系统中，执行相应的操作。每个用户又必须属于一个 &lt;strong&gt;主组&lt;/strong&gt; 和一个或多个 &lt;strong&gt;其他组&lt;/strong&gt;。用户和组又是构成 Linux 权限管理的基础，因此了解用户和组，对学习 Linux 至关重要。&lt;br /&gt;
+&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;本文意在向大家简单介绍如何在 Linux 下通过命令行的方式对用户和组进行操作。通过该文的讲解，你将能够掌握到以下命令：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;useradd&lt;/code&gt; 创建新用户&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;passwd&lt;/code&gt; 和 &lt;code&gt;chpasswd&lt;/code&gt; 修改用户密码&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;usermod&lt;/code&gt; 修改用户属性&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;chage&lt;/code&gt; 修改用户已日期相关信息&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;userdel&lt;/code&gt; 删除用户&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;groupadd&lt;/code&gt; 创建组&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;groupdel&lt;/code&gt;删除组&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;id&lt;/code&gt; 查看用户信息&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ulimit&lt;/code&gt; 用户资源限制相关操作&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;本文所使用的系统环境为 &lt;code&gt;CentOS 7.4&lt;/code&gt;，并且所有命令都运行在 root 用户下，如果您没有登录 root 用户的权限，则至少有 &lt;code&gt;sudo&lt;/code&gt; 权限，并在所有命令前使用 &lt;code&gt;sudo&lt;/code&gt; 命令。&lt;/p&gt;
+
+&lt;h2 id=&#34;用户管理&#34;&gt;用户管理&lt;/h2&gt;
+
+&lt;p&gt;在这一节中，我们将学习如果创建新用户，查看用户信息，修改用该信息及密码，以及与用户相关的以为文件。&lt;/p&gt;
+
+&lt;h3 id=&#34;useradd-创建用户&#34;&gt;&lt;code&gt;useradd&lt;/code&gt; 创建用户&lt;/h3&gt;
+
+&lt;p&gt;在 Linux 下，我们可以通过命令 &lt;code&gt;useradd&lt;/code&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; 来创建一个新用户，其格式为 &lt;code&gt;useradd [options] LOGIN&lt;/code&gt;。 它可以接受一个或者多个参数，下面列出了一些常用的参数：&lt;br /&gt;
+&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>CentOS7 下编译安装 Apache2.4 &#43; PHP5.6</title>
+      <link>https://gbyukg.github.io/posts/compile-php-apache/</link>
+      <pubDate>Tue, 02 Feb 2016 16:52:47 +0800</pubDate>
+      
+      <guid>https://gbyukg.github.io/posts/compile-php-apache/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;Apache 是迄今为止全世界中使用最广泛的 WEB 服务器软件，它快速、可靠并且可通过简单的API扩充，将 PHP，Python 等解释器编译到服务器中。&lt;br /&gt;&lt;/li&gt;
+&lt;li&gt;PHP 是最流行的 WEB 开发语言&lt;strong&gt;之一&lt;/strong&gt;，它简单，易上手，尤其是 PHP7 的发布，对 PHP 的性能有了质的飞跃。并且 PHP 是世界上最好的语言（来打我呀🤣）&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;虽然各种发行版的 Linux 系统为我们提供了很方便的包管理工具来帮助我们快速安装 PHP 和 Apache，比如 Ubunt 系统的 &lt;code&gt;apt&lt;/code&gt;，RedHat 系列的 &lt;code&gt;yum&lt;/code&gt;。这些工具使用起来简单便捷，只需通过简单的几行命令，即可快速搭建出 PHP + Apache 的 WEB 环境，最重要的是，这些工具能够自动为我们处理最令人恼火的包依赖问题。通常情况下，使用包管理工具来安装这些中间件，是比较明智的选择，如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 可以快速安装 apache 和 php
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;sudo yum install httpd php -y&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;/br&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
