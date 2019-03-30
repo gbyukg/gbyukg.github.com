@@ -24,7 +24,9 @@ warngin
 info
 note
 {{</admonition>}}
-<!--more-->
+
+<!-- more -->
+
 ![This is an image](/img/devops/download-aix-patch-1.png)
 
 [AIX 系统升级]({{< relref "AIX-system-upgrade.md" >}})

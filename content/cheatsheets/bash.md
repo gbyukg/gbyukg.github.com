@@ -5,11 +5,10 @@ categories:
   - CLI
 markup: mmark
 cheatsheet: CLI
+type: cheatsheet
 ---
 
-Getting started
----------------
-{: .-three-column}
+## h2 section
 
 ### Example
 
@@ -19,6 +18,8 @@ Getting started
 NAME="John"
 echo "Hello $NAME!"
 ```
+
+
 
 ### Variables
 
@@ -68,7 +69,6 @@ echo "You are $(get_name)"
 See: [Functions](#functions)
 
 ### Conditionals
-{: id='conditionals-example'}
 
 ```bash
 if [ -z "$string" ]; then
@@ -95,6 +95,7 @@ See: [Unofficial bash strict mode](http://redsymbol.net/articles/unofficial-bash
 echo {A,B}.js
 ```
 
+| --- | --- |
 | `{A,B}` | Same as `A B` |
 | `{A,B}.js` | Same as `A.js B.js` |
 | `{1..5}` | Same as `1 2 3 4 5` |

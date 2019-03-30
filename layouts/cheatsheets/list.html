@@ -1,12 +1,11 @@
 {{ partial "header.html" . }}
-<link rel="stylesheet" href="{{ $.Site.BaseURL }}/css/index.css">
 <main id="cheatsheets" role="main" class="main-panel">
   <section class="container container-ex">
     <div class="inner">
         <div class="no-toc">
         {{ partial "breadcrumb.html" . }}
         <form data-js-search-form="" class="search" action="." method="get">
-        <label class="search-box ">
+        <label class="search-box taq">
         <span class="prefix">cheatsheets</span>
         <span class="sep">/</span>
         <input name="q" type="text" autofocus="" data-js-search-input="" placeholder="Search..">

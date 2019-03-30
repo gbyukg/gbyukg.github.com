@@ -132,6 +132,19 @@ gulp.task("hugo", cb => {
   env === "dev" && cb();
 });
 
+gulp.task("wrap", cb => {
+  const destDir =
+    env === "dev" ? devDir : env === "prod" ? prodDir : `${themeDir}/static`;
+  const wrapDir = "cheatsheets"
+  const wrap = cp.spawn('python', ['wrap.py', `${destDir}/${wrapDir}`]);
+  //wrap.stdout.on("data", data => util.log(data.toString()));
+  //wrap.stderr.on("data", data => util.log("error: ", data.toString()));
+  wrap.on('exit', function (code) {
+    util.log('wrap exited with code ' + code);
+    cb(code);
+  });
+});
+
 //devDir => prodDir
 gulp.task("rev", () => {
   const revExts = "png,svg,jpg,css,js";
@@ -188,7 +201,7 @@ gulp.task("purifycss", () => {
 });
 
 gulp.task("build:dev", cb => {
-  run("hugo", ["style", "script", "image", "pimg", "copy:static", "lunr"], cb);
+  run("hugo", ["style", "script", "image", "pimg", "copy:static", "lunr", "wrap"], cb);
 });
 
 gulp.task("build", ["clean"], cb => {

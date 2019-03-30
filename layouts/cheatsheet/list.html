@@ -1,0 +1,36 @@
+{{ partial "header.html" . }}
+<main id="cheatsheets" role="main" class="main-panel">
+  <section class="container container-ex">
+    <div class="inner">
+        <div class="no-toc">
+        {{ partial "breadcrumb.html" . }}
+        <form data-js-search-form="" class="search" action="." method="get">
+        <label class="search-box taq1">
+        <span class="prefix">cheatsheets</span>
+        <span class="sep">/</span>
+        <input name="q" type="text" autofocus="" data-js-search-input="" placeholder="Search..">
+        </label>
+        </form>
+
+      <div class="pages-list" role="main">
+          {{ $post := where (where $.Site.Pages "Type" "cheatsheet") "Kind" "page" }} {{ range $post.GroupByParam "cheatsheet" }}
+            <h2 class="category item"><span>{{ .Key }}</span></h2>
+            {{ range .Pages }}
+              <a class="article item -item-pacman" href="{{ .Permalink }}" data-js-searchable-item="{&quot;slug&quot;:&quot;pacman&quot;,&quot;category&quot;:&quot;Linux&quot;}" data-search-index="">
+                <span class="info">
+                <code class="slug">{{ .Title }}</code>
+                <abbr class="attribute-peg -new-layout hint--bottom" data-hint="New layout!"><span></span></abbr>
+                <span class="title">{{ .Title }} </span>
+                </span>
+              </a>
+            {{ end }}
+          {{ end }}
+      </div>
+      </div>
+      <div class="pagination"></div>
+    </div>
+
+  </section>
+  {{ partialCached "footer.html" . }}
+</main>
+{{partialCached "script.html" .}}

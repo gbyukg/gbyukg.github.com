@@ -6,7 +6,7 @@ tags:
 categories:
   - VIM
 cheatsheet: VIM
-typ: cheatsheet
+type: cheatsheet
 ---
 
 ## 

@@ -1,13 +1,15 @@
 {{ partial "header.html" . }}
 <!---->
-{{ $tocable := and (index .Params "toc" | default true) (gt .WordCount 400) }}
-<!---->
-{{ $tocable := and (ne "" (print .TableOfContents)) $tocable }}
-<main role="main" class="post-content MarkdownBody -wrapified" data-js-main-body>
-  <div class="h2-section -three-column">
-    <div class="body h3-section-list -three-column" style="position: relative; height: 736px;">
-      {{.Content }}
-
+<header class="cheatsheet-header">
+    <h1>{{ .Title }} <em>cheatsheet</em></h1>
+</header>
+<main id="single" role="main" class="main-panel">
+  <div class="page-content">
+    <div class="container container-ex">
+      <div class="inner">
+        <section class="post-wrapper">
+          <div class="cheatsheet reveal">
+            <div class="card">
               <div class="card-content">
 
                 <article class="article">
@@ -25,6 +27,21 @@
                 {{ partial "comment.html" . }}
               </div>
 
+              {{ if eq .Type "posts" }}
+              <div class="pagination-single">
+                {{ with .Prev }} {{if eq .Type "posts" }}
+                <span class="pagination-item previous">
+                  <i class="material-icons">navigate_before</i>
+                  <a href="{{ .Permalink }}" rel="prev">{{ .Title }}</a>
+                </span> {{ end }}{{ end }} 
+                <!---->
+                {{ with .Next }}{{if eq .Type "posts"}}
+                <span class="pagination-item next">
+                  <a href="{{ .Permalink }}" rel="next">{{ .Title }}</a>
+                  <i class="material-icons">navigate_next</i>
+                </span> {{ end }}{{ end }}
+              </div>
+              {{ end }}
 
             </div>
           </div>
@@ -34,5 +51,59 @@
   </div>
   {{ partialCached "footer.html" . }}
 </main>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>-->
+<!--<script src="https://masonry.desandro.com/masonry.pkgd.js"></script>-->
+<!--<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.js"></script>-->
+<script>
+    /*
+    $('.h3-section-list').isotope({
+        itemSelector: '.h3-section',
+        masonry: {
+            columnWidth: '.h3-section',
+            horizontalOrder: true,
+        }
+    });
+    */
+    /*
+    $('.h3-section-list').masonry({
+        itemSelector: '.h3-section',
+        columnWidth: '.h3-section',
+        percentPosition: true
+    });
+    */
+
+    /*
+    function resizeGridItem(item){
+        grid = document.getElementsByClassName("h3-section-list")[0];
+        rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+        rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
+        rowSpan = Math.ceil((item.querySelector('.body').getBoundingClientRect().height+item.querySelector('.highlight').getBoundingClientRect().height+item.querySelector('h3').getBoundingClientRect().height+rowGap)/(rowHeight+rowGap));
+            item.style.gridRowEnd = "span "+rowSpan;
+    }
+
+    function resizeAllGridItems(){
+        debugger
+        allItems = document.getElementsByClassName("h3-section");
+        for(x=0;x<allItems.length;x++){
+            resizeGridItem(allItems[x]);
+        }
+    }
+
+    function resizeInstance(instance){
+        item = instance.elements[0];
+        resizeGridItem(item);
+    }
+
+    window.onload = resizeAllGridItems();
+    window.addEventListener("resize", resizeAllGridItems);
+
+    allItems = document.getElementsByClassName("h3-section");
+    for(x=0;x<allItems.length;x++){
+        imagesLoaded( allItems[x], resizeInstance);
+    }
+    */
+
+</script>
 
 {{partialCached "script.html" .}}
