@@ -67,8 +67,13 @@ publishDir = "docs"
     url = "/"
 
 [[menu.main]]
-    name = "Archive"
+    name = "Cheatsheets"
     weight = 2
+    url = "/cheatsheets/"
+
+[[menu.main]]
+    name = "Archive"
+    weight = 3
     url = "/archive/"
 
 # [[menu.main]]
