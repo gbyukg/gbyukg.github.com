@@ -4,13 +4,6 @@
     <div class="inner">
         <div class="no-toc">
         {{ partial "breadcrumb.html" . }}
-        <form data-js-search-form="" class="search" action="." method="get">
-        <label class="search-box taq1">
-        <span class="prefix">cheatsheets</span>
-        <span class="sep">/</span>
-        <input name="q" type="text" autofocus="" data-js-search-input="" placeholder="Search..">
-        </label>
-        </form>
 
       <div class="pages-list" role="main">
           {{ $post := where (where $.Site.Pages "Type" "cheatsheet") "Kind" "page" }} {{ range $post.GroupByParam "cheatsheet" }}

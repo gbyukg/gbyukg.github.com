@@ -19,8 +19,6 @@ NAME="John"
 echo "Hello $NAME!"
 ```
 
-
-
 ### Variables
 
 ```bash
@@ -101,7 +99,6 @@ echo {A,B}.js
 | `{1..5}` | Same as `1 2 3 4 5` |
 
 See: [Brace expansion](http://wiki.bash-hackers.org/syntax/expansion/brace)
-
 
 Parameter expansions
 --------------------
