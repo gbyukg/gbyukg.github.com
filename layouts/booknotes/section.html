@@ -3,14 +3,33 @@
 {{ $child_pages := union .Sections .Pages }}
 
 <main id="index" role="main" class="main-panel">
+
+
+
+
   <div class="section row">
     {{ range $child_pages.ByTitle }}
       {{ if eq .Kind "page" }}
-        <p>Is a page</p>
-        <p>{{ .Kind }}</p>
+
+
+      <ul class="collection">
+        <li class="collection-item avatar">
+          <i class="material-icons circle">folder</i>
+          <span class="title red">{{ .CurrentSection.Title }}</span>
+          <a href="{{ .Permalink }}">
+            <p> {{ .Title }} </p>
+          </a>
+          <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+        </li>
+      </ul>
+
+
+
+
       {{ else }}
         {{/* .Kind is section*/}}
         <div class="col s4 m4">
+          <a href="{{ .Permalink }}">
           <div class="card hoverable">
             <div class="card-image">
               {{/* Using Page Resource to retrive image */}}
@@ -19,13 +38,19 @@
               {{ end }}
               <span class="card-title">{{ .Title }}</span>
             </div>
-            <div class="card-content">
-              <p>{{ .Content }}</p>
-            </div>
+            {{ with .Content }}
+              <div class="card-content">
+                <p>{{ . }}</p>
+              </div>
+            {{ end }}
+
+            {{ with .Params.action }}
             <div class="card-action">
-              <a href="{{.Permalink}}">This is a link</a>
+              <a href="{{.Permalink}}">{{ .Params.action }}</a>
             </div>
+            {{ end }}
           </div>
+          </a>
         </div>
       {{ end }}
     {{ end }}
