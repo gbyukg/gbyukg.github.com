@@ -1,0 +1,35 @@
+{{ partial "header.html" . }}
+
+{{ $child_pages := union .Sections .Pages }}
+
+<main id="index" role="main" class="main-panel">
+  <div class="section row">
+    {{ range $child_pages.ByTitle }}
+      {{ if eq .Kind "page" }}
+        <p>Is a page</p>
+        <p>{{ .Kind }}</p>
+      {{ else }}
+        {{/* .Kind is section*/}}
+        <div class="col s4 m4">
+          <div class="card hoverable">
+            <div class="card-image">
+              {{/* Using Page Resource to retrive image */}}
+              {{ with .Resources.GetMatch "icon*" }}
+                <img src="{{ .RelPermalink }}" alt="{{ .Title }}">
+              {{ end }}
+              <span class="card-title">{{ .Title }}</span>
+            </div>
+            <div class="card-content">
+              <p>{{ .Content }}</p>
+            </div>
+            <div class="card-action">
+              <a href="{{.Permalink}}">This is a link</a>
+            </div>
+          </div>
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
+</main>
+
+{{partialCached "script.html" .}}
