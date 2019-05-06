@@ -1,0 +1,518 @@
+= Git Essentials
+Zeliang Zhang <zzeliang@cn.ibm.com>
+2019-05-05
+:appversion: 1.0.0
+:source-highlighter: prettify
+:icons: font
+:stylesdir: ./styles
+:imagesdir: ./images
+:toc: left
+:toclevels: 4
+
+== Git objects
+
+[source, shell]
+----
+git log --format=fuller #<1>
+----
+<1> 使用 `fuller` 格式输出 git 日志信息。
+
+
+.输出结果
+----
+commit ca5b7360ad51b888aa6d1522d904141b71586bf3 (HEAD -> master) #<1>
+Author:     Zeliang Zhang(Lock) <zzeliang@cn.ibm.com> #<2>
+AuthorDate: Sun May 5 18:21:12 2019 +0800
+Commit:     Zeliang Zhang(Lock) <zzeliang@cn.ibm.com> #<3>
+CommitDate: Sun May 5 18:21:12 2019 +0800
+
+    Add a banana to the shopping list
+----
+<1> commit hash 值
+<2> commit 作者
+<3> Committer，通常情况下，Committer 与 Author 相同，但是在特殊情况下，如：某个开发者 `cherry-pick` 一个 commit，Commiter 则会成为执行该操作的人，而 Author 保持不变。
+
+[source, bash]
+----
+git log --format=raw
+----
+
+.输出结果
+----
+commit ca5b7360ad51b888aa6d1522d904141b71586bf3
+tree a31c31cb8d7cc16eeae1d2c15e61ed7382cebf40 #<1>
+author Zeliang Zhang(Lock) <zzeliang@cn.ibm.com> 1557051672 +0800
+committer Zeliang Zhang(Lock) <zzeliang@cn.ibm.com> 1557051672 +0800
+
+    Add a banana to the shopping list
+----
+<1> 同时输出了 tree 信息。
+
+[source, shell]
+----
+git cat-file -p ca5b73 #<1>
+----
+<1> 使用 plumbing 命令 `cat-file` 查看 GIT 对象， `-p` 参数指定以用户友好形式打印出对象中的内容。
+
+.输出结果
+----
+tree a31c31cb8d7cc16eeae1d2c15e61ed7382cebf40
+author Zeliang Zhang(Lock) <zzeliang@cn.ibm.com> 1557051672 +0800
+committer Zeliang Zhang(Lock) <zzeliang@cn.ibm.com> 1557051672 +0800
+
+Add a banana to the shopping list
+----
+
+与 `git log --format=raw` 输出结果一样。
+
+=== Procelain commands and plumbing commands
+
+Procelain:: 指那些对用户友好易用的命令。
+Plumbing:: 指那些底层命令。
+
+Git 使用 4 种对象：
+
+* commit
+* tree
+* blob
+* annotated tag
+
+=== Trees
+Tree 对象是用于包含其它 blobs 及 trees 的容器。它就像是我们系统中的文件夹一样，包含了其它文件和文件夹。
+
+.查看 tree 对象
+[source, shell]
+----
+git cat-file -p a31c31 #<1>
+----
+<1> `a31c31` tree 对象 hash 值。
+
+.输出结果
+----
+100644 blob 907b75b54b7c70713a79cc6b7b172fb131d3027d    README.md
+100644 blob 637a09b86af61897fb72f26bfb874f2ae726db82    shoppingList.txt
+----
+
+=== Blobs
+
+[source, shell]
+----
+$ git cat-file -p 637a0
+banana #<1>
+----
+<1> 与 shoppingList.txt 中的内容一致。
+
+blob 中存储的就是经过 `zlib` 压缩后的文件内容，当使用 `cat-file` 读取 blob 中的内容时，实际上就是将以 blob hash 为名的文件中的内容解压并读取出来。
+
+[source, shell]
+----
+$ echo "banana" | git hash-object --stdin #<1>
+637a09b86af61897fb72f26bfb874f2ae726db82 #<2>
+----
+<1> 通过使用 git 的 plumbing 命令 `hash-object` 计算对象的 hash 值。
+<1> 输出的 hash 值与我们 git 仓库中的 hash 值完全一样。
+
+TIP: Git 使用 `hash-object` 命令对文件内容计算 hash 值，它无关与文件名、文件权限等，因此两个内容完全相同的文件，即使文件名不同，所产生的 hash 值也完全相同。
+
+== Even deeler - the Git storage object model
+
+在 Git 中，所有对象都被保存到了 `.git/objects` 目录下。
+
+=== Git doesn't use deltas
+In Git even if you change only a char in a big text file, it always store a new version of the file: Git doesn't do deltas, and every commit is acutally a snapshot of the entire repository.
+
+当使用 `git commit` 创建一次提交时，对于那些没有发生任何改动的文件， git 会直接他们的 hash 文件以便节约空间和时间成本。
+
+== Git references
+In Git, a branch is nothing more than a label, a mobile label placed on a commit.
+
+[source, shell]
+----
+$ git log --oneline --graph --decorate
+* ef2d3d7 (HEAD -> master) Add an orange
+* e84934a Add an apple
+----
+
+`HEAD` 是一个指向当前 GIT 所在位置的引用，它的信息被保存在了 `.git/HEAD` 文件中。
+
+[source, shell]
+----
+$ cat .git/HEAD
+ref: refs/heads/berries #<1>
+----
+<1> `ref:` GIT 内部协议，声明一个指针指向另一个 branch。
+
+=== Reachability and undoing commits
+
+[source, shell]
+----
+$ git reset --hard master #<1>
+HEAD is now at ef2d3d7 Add an orange
+----
+<1> `reset` 命令事实上就是移动了当前 HEAD 指针，使其指向另外一个位置。
+
+当使用 reset 回退到上一 commit 版本后，最新的 commit 也随之消失。但它并没有被删除，至少暂时并没有被删除(参考 git gc 命令)。
+
+它之所以消失，是因为我们当前没有任何引用指向那个 commit 了。
+
+如果你还记得那个消失的 commit 的 hash 值，可以再次恢复到那次 commit：
+
+[source, shell]
+----
+git reset --hard 1e72e00 #<1>
+----
+<1> `1e72e00` reset 之前最后一次 commit 的 hash 值。
+
+[source, shell]
+----
+$ git reset --hard HEAD^
+$ git reset --hard HEAD^^
+$ git reset --hard HEAD~5
+----
+
+=== Detached HEAD
+
+[source, shell]
+----
+$ git checkout HEAD^
+Note: checking out 'HEAD^'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b <new-branch-name>
+
+HEAD is now at e84934a Add an apple
+
+$ git log
+* ea1ca83 (melons) Add a watermelon
+* 1e72e00 (berries) Add a blackberry
+* ef2d3d7 (master) Add an orange
+* e84934a (HEAD) Add an apple #<1>
+* ca5b736 Add a banana to the shopping list
+
+cat .git/HEAD
+e84934a169f44d1631da89c4b9e7c2d712d126ca #<2>
+----
+<1> HEAD 指向 master 分支的前一次 commit。
+<2> HEAD 文件中直接保存了所指向 commit 的 hash 值。
+
+在 checkout 一个指定 commit 后，我们可以做任何 commit。但是当我们切换到一个当前已有分支后，这些新的 commit 全部消失不见，这是因为没有任何引用指向这些新的 commit 了。但是如果我们此时新建一个分支，这些 commit 将在 新的 branch 下可见。
+
+[source, shell]
+----
+$ git log --oneline --graph --decorate --all
+* 983b34d (HEAD) Bug eats all the fruits! #<2>
+| * ea1ca83 (melons) Add a watermelon
+| * 1e72e00 (berries) Add a blackberry
+| * ef2d3d7 (master) Add an orange #<2>
+|/
+* e84934a Add an apple #<1>
+* ca5b736 Add a banana to the shopping list
+----
+<1> 在该 commit 之后出现两个分支。
+
+此时再次尝试切换到 master 分支：
+
+[source, shell]
+----
+$ git checkout master
+Warning: you are leaving 1 commit behind, not connected to
+any of your branches:
+
+  983b34d Bug eats all the fruits! #<1>
+
+If you want to keep it by creating a new branch, this may be a good time
+to do so with:
+
+ git branch <new-branch-name> 983b34d #<2>
+
+Switched to branch 'master'
+----
+<1> 提示我们该 commit 没有被任何对象所引用
+<2> 可以基于此次 commit 创建一个新分支，来恢复该 commit。
+
+[source, shell]
+----
+$ git branch bug 983b34d #<1>
+
+$ git log --oneline --graph --decorate --all
+* 983b34d (bug) Bug eats all the fruits! #<2>
+| * ea1ca83 (melons) Add a watermelon
+| * 1e72e00 (berries) Add a blackberry
+| * ef2d3d7 (HEAD -> master) Add an orange
+|/
+* e84934a Add an apple
+* ca5b736 Add a banana to the shopping list
+----
+<1> 基于该 commit 创建一个新分支。
+<2> commit 出现在新的分支下面。
+
+=== The reflogs
+reference log, or reflog, 记录了所有 `HEAD` 更新日志信息。
+
+[source%nowrap, shell]
+----
+ef2d3d7 (HEAD -> master) HEAD@{0}: checkout: moving from 983b34d930b765d308ac52375d229eeeb29d1402 to master
+983b34d (bug) HEAD@{1}: commit: Bug eats all the fruits!
+e84934a HEAD@{2}: checkout: moving from master to HEAD^
+ef2d3d7 (HEAD -> master) HEAD@{3}: checkout: moving from e84934a169f44d1631da89c4b9e7c2d712d126ca to master
+e84934a HEAD@{4}: checkout: moving from master to HEAD^
+ef2d3d7 (HEAD -> master) HEAD@{5}: checkout: moving from berries to master
+1e72e00 (berries) HEAD@{6}: reset: moving to HEAD^
+ea1ca83 (melons) HEAD@{7}: commit: Add a watermelon
+1e72e00 (berries) HEAD@{8}: reset: moving to 1e72
+ef2d3d7 (HEAD -> master) HEAD@{9}: reset: moving to master
+1e72e00 (berries) HEAD@{10}: commit: Add a blackberry
+ef2d3d7 (HEAD -> master) HEAD@{11}: checkout: moving from master to berries
+ef2d3d7 (HEAD -> master) HEAD@{12}: commit: Add an orange
+e84934a HEAD@{13}: commit: Add an apple
+ca5b736 HEAD@{14}: commit (initial): Add a banana to the shopping list
+----
+
+WARNING: 由于 GIT 没有使用任何数据库之类的持久化存储仓库，这些日志默认会保留 90 天。
+
+[source, shell]
+----
+git reflog berries #<1>
+
+1e72e00 (berries) berries@{0}: reset: moving to HEAD^
+ea1ca83 (melons) berries@{1}: commit: Add a watermelon
+1e72e00 (berries) berries@{2}: reset: moving to 1e72
+ef2d3d7 (HEAD -> master) berries@{3}: reset: moving to master
+1e72e00 (berries) berries@{4}: commit: Add a blackberry
+ef2d3d7 (HEAD -> master) berries@{5}: branch: Created from master
+----
+<1> 查看特定分支。
+
+=== Tags are fixed labels
+分支可以想象成一个移动的标签，指向的位置随着 commit 的变化而变化。而 tags 则可以看作是固定的标签。
+
+[source, shell]
+----
+$ git checkout bug
+
+$ git tag bugTag
+
+$ git log --oneline --graph --decorator --all
+* 2ff6c0d (HEAD -> bug) Another bug!
+* 983b34d (tag: bugTag) Bug eats all the fruits! #<1>
+| * ea1ca83 (melons) Add a watermelon
+| * 1e72e00 (berries) Add a blackberry
+| * ef2d3d7 (master) Add an orange
+|/
+* e84934a Add an apple
+* ca5b736 Add a banana to the shopping list
+
+cat .git/refs/tags/bugTag
+983b34d930b765d308ac52375d229eeeb29d1402 #<2>
+----
+<1> tag 并没有随着新 commit 的创建而移动。
+<2> tag 所指向的 hash 值。
+
+=== Annotated tags
+Annotated tags 不仅可以标记某个 hash 对象，同时它还可以包含一些额外的信息，如 tag 的创建者，tag 的描述信息等等。
+
+因此，annotated tags 不仅仅是一个 reference， 同时它还是一个 git 对象。
+
+[source, shell]
+----
+$ git tag -a annotatedTag 983b34d #<1>
+
+$ cat .git/refs/tags/annotatedTag #<2>
+3dea505c6c6cf0d897a68c8d6c86aa0022f4be93
+
+$ git cat-file -p 3dea50
+object 983b34d930b765d308ac52375d229eeeb29d1402 #<3>
+type commit
+tag annotatedTag
+tagger Zeliang Zhang(Lock) <zzeliang@cn.ibm.com> 1557071094 +0800
+
+This is an annotated tag
+----
+<1> 创建一个名为 annotatedTag 的 annotated tag。
+<2> 一个新的 ref 被创建。
+<3> 同时创建了一个新的对象。
+
+=== Staging area, working tree, and HEAD commit
+
+Staging area:: 暂存区，也叫 index，用于保存那些下次 commit 时所要提交的文件，通过 `git add` 命令将文件添加到暂存区。
+
+Working tree:: 工作区，即 git 仓库目录。
+
+HEAD commit:: 版本库中的最后一次提交的 commit。
+
+[source, shell]
+----
+$ git diff #<1>
+$ git diff --cached HEAD #<2>
+$ git diff HEAD #<3>
+----
+<1> 工作区与暂存区对比。
+<2> 暂存区与版本库对比。这里的 HEAD 是默认值，因此它是可选的。
+<3> 工作区与版本库对比。
+
+[source, shell]
+----
+$ git reset HEAD shoppingList.txt #<1>
+# 等同于
+$ git reset -- shoppingList.txt
+----
+<1> 将文件从暂存区中移除，但是保留文件修改的内容。
+
+[source, shell]
+----
+$ git checkout -- shoppingList.txt #<1>
+----
+<1> 撤销工作区中所有修改的内容，注意，该操作是不可逆的。因为 checkout 也有切换分支的功能，这里的 `--` 后面跟文件名，明确指定要操作的是文件。
+
+=== Git reset can be hard, soft, or mixed
+
+[source, shell]
+----
+$ git reset --soft master #<1>
+git reset --mixed master #<2>
+git reset --hard master #<3>
+----
+<1> 重置 HEAD，将 HEAD 引用指向 master 分支。
+<2> 同时重置 HEAD 和 staging area，其中，`--mixed` 也是默认的选项，可以忽略不写。
+<3> 同时重置 HEAD,staging area 和 working tree。
+
+== Rebasing
+
+`git rebase` 命令用于修改历史记录，利用该命令，我们可以实现：
+
+* 合并两个或两个以上的 commit 为一个 commit。
+* 删除上一次的 commit。
+* 移动分支的起始位置，拆分分支等等。
+
+=== Reassembling commits
+[source, shell]
+----
+git rebase -i HEAD~2 
+----
+
+=== Rebasing branches
+[source, shell]
+----
+git rebase master
+----
+
+当有冲突时，需要解决冲突，然后创建一个 commit。
+
+=== Fast forwarding
+
+Fast forwarding merge 不会产生任何新的 merge commit 信息。
+
+[source, shell]
+----
+git merge --no-ff melons #<1>
+----
+<1> 如果可以执行 fast forwarding merge, 不会产生任何新的 merge commit 信息。可以使用参数 `--no-ff` 强制产生一个新的 commit merge 信息。
+
+=== Cherry picking
+
+有时候我们只是简单地想将其它分支上的改动应用到当前分支上，而不是将整个分支 merge 到当前分支。 `git cherry-pick` 命令为我们提供了这种功能。
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
+
+[source, shell]
+----
+
+----
