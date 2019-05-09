@@ -1,0 +1,317 @@
+= Chapter 5. Services: enabling clients to discover and talk to pods
+Zeliang Zhang <zzeliang@cn.ibm.com>
+2019-05-08
+:appversion: 1.0.0
+:source-highlighter: prettify
+:icons: font
+:stylesdir: ./styles
+:imagesdir: ./images
+:toc: left
+:toc-title: Chapter 5. Services
+:toclevels: 4
+
+POD 被设计成可以随意删除、扩增，他们没有固定的 IP 地址，因此要向 POD 发送请求，需要通过 K8S 的 services。
+
+== Introduce services
+service 为一组 pods 提供了统一的、固定的入口点，每个 service 都有一个 IP 地址和端口号，在 service 的整个生命周期内，IP 地址和端口号始终会保持固定不变。当 service 接受到一个请求后，会将请求转发给这组 POD 中的某一个 POD 去处理请求。
+
+=== Create services
+[source, yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia
+spec:
+  ports:
+  - port: 80                #<1>
+    targetPort: 8080        #<2>
+  selector:                 #<3>
+    app: kubia              #<3>
+----
+<1> service 接受请求的端口号
+<2> pod 接收请求的端口号
+<3> 所有包含 app labe，且其值为 kubia 的 POD 都将接受来自该 service 的请求。
+
+向该 service 的 80 端口发送的请求，会通过 Kubernets 内部的 load-balance 机制，从所有定义了 app=kubia label 的 POD 中选择其中一个 POD，并将请求转发给该 POD 的8080端口。
+
+通过这种方式创建出来的 service，会被自动分配一个 #内部 IP 地址（cluster IP）#，因此只能在 Kubernet 内部访问，这种 service 的主要作用是供其它 POD 所访问。
+
+当 service 接受到请求后，会将请求随机发送给后端某一个 pod，即使请求始终来自于同一客户端。如果想禁用这种功能，即当第一次某个 pod 接受到请求后，后续所有请求都需要该 pod 进行处理，可以使用 `sessionAffinity` 属性：
+
+[source, yaml]
+----
+apiVersion: v1
+kind: Service
+spec:
+  sessionAffinity: ClientIP #<1>
+  ...
+----
+<1>
+
+[source, shell]
+----
+$ kubectl exec kubia-7nog1 -- curl -s http://10.111.249.153
+----
+
+`--` 之前是传递给 kubectl 命令的参数，后面的所有字符串都不会被看做是它的参数。如果这里没有使用 `--` 指定参数结束，那么后面传递给 curl 命令的 `-s` 参数也会被当做是传递给 kubectl 命令的参数，引起报错。
+
+service 可以同时指定多个监听端口：
+[source, yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia
+spec:
+  ports:
+  - name: http             #<1>
+    port: 80               #<1>
+    targetPort: 8080       #<1>
+  - name: https            #<2>
+    port: 443              #<2>
+    targetPort: 8443       #<2>
+  selector:                #<3>
+    app: kubia             #<3>
+----
+<1> 将 service 80 端口接受到的请求转发给 pod 的 8080 端口，同时指定该端口名为 http。
+<2> 将 service 443 端口接受到的请求转发给 pod 的 8443 端口，同时指定该端口名为 https。
+
+当为一个 service 同时指定多个端口时，必须为每个端口指定一个名字。
+
+NOTE: 在 service 中指定的所有端口，都遵守同一 `selector` 约定，即都将转发给同一组 pod，如果想为不同的端口指定不同的 pod，则需要定义多个 service。
+
+在 pod 中定义端口时，也可以为其指定名字，这样在 service 中指定 `targetPort` 时可以直接引用 pod 中定义的名字了，而不用在使用端口号：
+
+.Pod
+[source, yaml]
+----
+kind: Pod
+spec:
+  containers:
+  - name: kubia
+    ports:
+    - name: http #<1>
+      containerPort: 8080 #<1>
+    -name: https #<2>
+      containerPort: 8443 #<2>
+----
+<1> 为 container 的 8080 端口命名为 http。
+<2> 为 container 的 8443 端口命名为 https。
+
+.Service
+[source, yaml]
+----
+apiVersion: v1
+kind: Service
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: http #<1>
+  - name: https
+    port: 443
+    targetPort: https #<2>
+----
+<1> 指向 pod 中名为 http 的端口。
+<2> 指向 pod 中名为 https 的端口。
+
+使用命名端口最大的好处在于，当修改端口号时，无需对 service 做任何改动。
+
+=== Discovering services
+当一个 service 创建后，pod 需要某种方式知道这些 service 的 ip 地址及端口号，kubernetes 提供了几种不同方式来让 pod 获取 service 的信息。
+
+*环境变量*::
+当一个新 pod 被创建后，当前集群中所有 service 信息都会被注册到 pod 的环境变量中，pod 可以通过这些环境变量来获取指定 service 的信息。
++
+[source, shell]
+----
+$ kubectl exec kubia-3inly env
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+HOSTNAME=kubia-3inly
+...
+KUBIA_SERVICE_HOST=10.111.249.153 #<1>
+KUBIA_SERVICE_PORT=80 #<1>
+...
+KUBERNETES_SERVICE_HOST=10.111.240.1 #<2>
+KUBERNETES_SERVICE_PORT=443 #<2>
+----
+<1> kubia service 的 IP 地址 和 端口号。
+<2> kubernetes service 的 IP 地址 和 端口号。
++
+kubernetes 会将 service 名的大写形式做为前缀，加上 `_SERVICE_HOST` 或 `_SERVICE_PORT` 来指定环境变量，如果 service 名中包含有横线(`-`)，则会被自动转换为下划线(`_`)。
+
+*DNS*::
+在 kubernetes 的 `kube-system` namespace 下，运行着名为 `kube-dns` 的 pod，以及一个同名的 service，该 pod 内运行着 DNS 服务。
+kubernetes 通过修改容器内的 `/etc/resolv.conf` 文件来指向该 DNS 服务。kubernetes DNS 中为每个 service 记录了一条 DNS 记录，这样我们就可以通过 service 的 fully qualified domain name(FQDN) 来向 service 发送请求。
++
+NOTE: 可以通过 pod 中的 `dnsPolicy` 属性来指定 pod 是否使用 Kubernetes 内置的 DNS 服务。
++
+.full qualified domain name(FQDN)
+====
+backend-database.default.svc.cluster.local
+====
+* `backend-database` 是 service 名
+* `default` 是 service 所在的 namespace 名
+* `svc.cluster.local` 在 kubernetes 中配置，做为所有 service 的统一后缀。
++
+通常可以省略统一后缀 `svc.cluster.local`，而且如果 pod 要访问的 service 在同一 namespace 中，甚至连 namespace `default` 都可以省略不写，这样，我们就可以直接通过 service name 来访问同一 namespace 内的 service 了。
+
+== 访问外部 services
+我们可以通过 services 来访问外部 IP 和 端口
+
+=== endpoints
+事实上，service 与 pods 并不是直接相链的，他们中间还存在另一个 kubernetes 资源 -- Endpoints。
+
+Endpoints 中将所对应的 pod 的 ip 地址和端口号记录到列表中，当 service 接受到请求后，会将请求发送给 endpoints，endpoints 会从列表中选取一组 ip 地址和端口号进行转发。
+
+当一个 service 被创建后，一个与 service 同名的 endpoints 会被一起自动创建出来。
+
+因为 endpoint 也是 kubernetes 中的一种资源，因此我们也可以像操作其它资源那样对 endpoint 进行操作，如：
+
+[source, shell]
+----
+$ kubectl get endpoints kubia
+NAME    ENDPOINTS                                         AGE
+kubia   10.108.1.4:8080,10.108.2.5:8080,10.108.2.6:8080   1h
+----
+
+=== 手动创建 endpoints
+如果在创建 service 时，没有指定 `selector` 属性，那么 kubernetes 将不会为我们自动创建 endpoints，因为它无法知道那些 pod 需要接受该 service 发送的请求。
+
+但是我们可以通过手动创建一个与 servicce 同名的 endpoint 资源，将其绑定到 该 service 上。
+
+.service
+[source, shell]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-service          #<1>
+spec:                             #<2>
+  ports:
+  - port: 80
+----
+<1> 手动创建 endpont 必须使用同名。
+<2> 没有指定 selector 属性。
+
+.endpoint
+[source, shell]
+----
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: external-service      #<1>
+subsets:
+  - addresses:
+    - ip: 11.11.11.11         #<2>
+    - ip: 22.22.22.22         #<2>
+    ports:
+    - port: 80                #<3>
+----
+<1> 与 service 同名
+<2> 通过 `addresses` 属性指定该 endpoint 要将请求转发给的 ip 地址。
+<3> 接受请求端的端口。
+
+后续我们可以直接为该 service 指定 selector 属性，来让 kubernetes 自动管理对应 endpoints，也可以使用同样的方式，将一个 service 中的 selector 属性删除，来手动管理对应的 endpoints。
+
+=== 为外部链接创建 service
+
+[source, yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-service
+spec:
+  type: ExternalName #<1>
+  externalName: someapi.somecompany.com #<2>
+  ports:
+  - port: 80
+----
+<1> 为 service 指定 type，并设置值为 `ExternalName`。
+<2> 外部地址的 FQDN。
+
+== 外部可访问的 service
+创建外部可访问的 service：
+
+* `*NodePort*`: 将 service type 指定为 NodePort，将为所有 kubernetes 节点开启 service 中指定的端口，任何一个节点都可以通过该端口接收请求，并将请求转发给该 service。
+* `*LoadBalancer*`: NodePort 的扩展，通过 Kubernetes 所在的云平台提供的 Load Balancer 服务，将请求转发给某个节点机器。客户端只需访问 LoadBalancer 地址。
+* *Ingress resource*: 另一种完全不同的转发机制。它工作在 HTTP 层（network layer 7）而不是网络的第4层，因此它提供了更多的功能。
+
+=== NodePort
+使用 NodePort 的方式创建 service，会在所有节点机器上开启一个统一的端口，因此必须保证 service 中定义的端口所有节点中都可用。我们可以通过任一节点机器的 IP 地址加该端口号来访问我们的 service。
+
+.NodePort
+[source, yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-nodeport
+spec:
+  type: NodePort #<1>
+  ports:
+  - port: 80 #<2>
+    targetPort: 8080 #<3>
+    nodePort: 30123 #<4>
+  selector:
+    app: kubia
+----
+<1> 指定 NodePort 类型。
+<2> service 的端口地址。
+<3> pod 接受请求的端口地址。
+<4> 在所有节点上开启的端口地址。
+
+向任一节点的 30123 端口发送的请求，都将被转到该 service 上，并最终将请求转发到某一个 pod 的 8080 端口中去。也可以不用手动指定 node 端口号，kubernetes 会自动为我们分配一个随机的端口号。
+
+NOTE: 当我们向某一节点机器发送请求后，接受请求的 pod 并不一定会是运行在该节点机器上，service 完全有可能将请求转发到其它节点上的 pod 中去。
+
+通过这种方式向外暴露 service 时，通常还需要搭建一个 Load Balancer，并指向所有的节点 IP。
+
+=== LoadBalancer
+使用这种方式的前提是，kubernetes 所在的云环境下提供了 LoadBalancer 的功能。但是，如果没有提供该功能，type 设置为 LoadBalancer 的 service 仍然能像 NodePort 那样来访问，因为 LoadBalancer 类型是基于 NodePort 基础之上扩展出来的。
+
+.LoadBalancer
+[source, yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-loadbalancer
+spec:
+  type: LoadBalancer #<1>
+  ports:
+  - port: 80
+  selector:
+    app: kubia
+----
+<1> 指定为 LoadBalancer 类型。
+
+在这里，我们没有通过 `nodePort` 属性明确指定各个节点所要暴露的端口号，而是让 Kubernetes 自动指定一个端口号。
+
+----
+$ kubectl get svc kubia-loadbalancer
+NAME                 CLUSTER-IP       EXTERNAL-IP      PORT(S)         AGE
+kubia-loadbalancer   10.111.241.153   130.211.53.173   80:32143/TCP    1m
+----
+
+我们可以通过 `EXTERNAL-IP` 字段中的 IP 地址和 80 端口来访问我们定义的 service。
+
+*Session affinity and web browsers*
+
+=== Understanding the peculiarities of external connections
+当请求通过 NodePort（或是 LoadBalancer）的方式将请求最终转发给 POD 时，接收请求的 POD 有可能运行在接受到请求的节点上，也有可能运行在其它的节点上，这样就有可能造成多余的转发，节点 A 接受到请求后，再次将请求转发到节点 B 上。
+
+可以通过为 service 设定 `externalTrafficPolicy:Local` 属性，来明确指定，service 只将请求转发给运行在接受请求的节点中的 pod。
+[source, yaml]
+----
+spec:
+  externalTrafficPolicy: Local
+  ...
+----
+
+NOTE: 当为 service 指定了该属性后，如果接受请求的节点上没有运行对应的 POD，那么请求将被终止，而并非我们期望的那样，将请求转发到其它节点的 POD 上去。因此需要确保 LoadBalancer 将请求转发到运行有需要接受 POD 请求的节点上。
+
+== Ingress
+
