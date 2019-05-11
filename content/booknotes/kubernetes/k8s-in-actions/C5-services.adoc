@@ -314,4 +314,50 @@ spec:
 NOTE: 当为 service 指定了该属性后，如果接受请求的节点上没有运行对应的 POD，那么请求将被终止，而并非我们期望的那样，将请求转发到其它节点的 POD 上去。因此需要确保 LoadBalancer 将请求转发到运行有需要接受 POD 请求的节点上。
 
 == Ingress
+Ingress 通过 service 获取 pods，并将请求直接转发给某个 pod，而并不是将请求转发给 services，在由 service 将请求转发给 pod。
+
+.Accessing pods through an Ingress
+image::05fig10_alt.jpg[]
+
+.Ingress exposing multiple services on same host, but different paths
+[source, yaml]
+----
+...
+  - host: kubia.example.com
+    http:
+      paths:
+      - path: /kubia                #<1>
+        backend:                    #<1>
+          serviceName: kubia        #<1>
+          servicePort: 80           #<1>
+      - path: /foo                  #<2>
+        backend:                    #<2>
+          serviceName: bar          #<2>
+          servicePort: 80           #<2>
+----
+<1> 将访问 `/kubai` 的请求通过 kubia service 查找到要转发到的 pods。
+<2> 将访问 `/foo` 的请求通过 bar service 查找到要转发到的 pods。
+
+.Ingress exposing multiple services on different hosts
+[source, yaml]
+----
+spec:
+  rules:
+  - host: foo.example.com          1
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: foo         1
+          servicePort: 80
+  - host: bar.example.com          2
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: bar         2
+          servicePort: 80
+----
+
+=== Ingress 处理 TLS
 
