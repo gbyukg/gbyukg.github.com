@@ -405,3 +405,27 @@ spec:
         ...
 ----
 <1> 为 pod 添加一个 exec readiness prob，周期性的(默认 10 秒)执行 `ls /var/ready` 命令，若文件 `/var/ready` 存在，ls 命令返回 0，表示执行成功，该 POD 将被视为准备好接收请求状态。
+
+== 使用 headless service 找到所有 POD
+当 service 接收到请求后，会将请求转发给其中的一个 POD，但有些时候我们可能希望所有后台 POD 都会接受到请求。或是 POD 之间进行通讯。
+
+想要将请求转发到每一个 POD，我们需要提前知道这些 POD 的 IP 地址。一种方式是通过调用 kubernetes API 的方式来获取 service 后面的所有 POD 的 IP 列表，但是我们应当尽可能地使我们的程序与平台本身解耦。
+
+另一种方式，Kubernetes 允许我们通过查询 DNS 的方式来获取 IP 地址。当我们查询某个 service 的 DNS 信息会，只会返回一个 IP 地址，即该 service 的 IP 地址。不过如果将 service 的 `clusterIP` 属性设置为 None 后，就会返回该 service 所指向的所有 POD 的地址。
+
+=== 创建 headless service
+[source, yaml]
+----
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-headless
+spec:
+  clusterIP: None                #<1>
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: kubia
+----
+<1> 将 clusterIP 属性设置为 None，来创建一个 headless service。
