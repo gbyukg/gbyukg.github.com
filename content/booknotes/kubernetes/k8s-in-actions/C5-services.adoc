@@ -361,3 +361,47 @@ spec:
 
 === Ingress 处理 TLS
 
+== 为准备好接收请求的 POD 设置信号
+默认情况下，当一个 pod 启动起来后，service 就会认为该 pod 可以接受请求，并有几率将请求发送给该 POD，但有些时候，即使 POD 启动起来，它可能仍需要一些时间做准备操作，只有这些准备操作全部完成以后才能够正常处理请求。针对这种情况，我们可以为 pod 设定 readiness 探针来告知 service 该 POD 是否已经准备好接受请求了。
+
+=== readiness probs
+通过为 POD 添加 readiness probs，来通知 service 该 pod 是否已经准备好接受请求了。
+
+当一个设定了 readiness probe 的 pod 被创建后，service 并不会将该 pod 马上添加到对应的 endpoints 中，而是根据我们设定的时间周期性的运行探针，当探针返回成功后在将该 pod 添加到 endpoint 中。
+
+三种 readiness probs：
+
+* Exec prob：一个可以被执行的 prob，执行后的返回状态代表是否已经准备好接收请求。
+* HTTP Get prob：向容器发送一个 HTTP Get 请求，通过 HTTP 请求的响应值确定 pod 是否准备好接收请求。
+* TCP Socket prob：向容器的指定端口创建一个 TCP 链接，通过链接是否被创建成功确定 pod 是否准备好接受请求。
+
+readiness 探针除了被应用到一个新创建的 pod 上之外，为一个正常运行的 pod 周期性的检测 readiness 探针也是很有必要的，这样可以确保在任意时刻所有 pod 都可以正常处理请求。
+
+当一个正常运行的 pod 的 readiness 探针执行失败后，kubernetes 会自动将该 pod 从 endpoints 列表中移除，来确保该 pod 不会接受到请求，而一旦探针再次恢复正常，该 pod 会自动被添加回 endpoint 中继续接收请求。
+
+.A pod whose readiness probe fails is removed as an endpoint of a service.
+image::05fig11_alt.jpg[]
+
+=== 为 pod 添加 readiness 探针
+
+[source, yaml]
+----
+apiVersion: v1
+kind: ReplicationController
+...
+spec:
+  ...
+  template:
+    ...
+    spec:
+      containers:
+      - name: kubia
+        image: luksa/kubia
+        readinessProbe:           #<1>
+          exec:                   #<1>
+            command:              #<1>
+            - ls                  #<1>
+            - /var/ready          #<1>
+        ...
+----
+<1> 为 pod 添加一个 exec readiness prob，周期性的(默认 10 秒)执行 `ls /var/ready` 命令，若文件 `/var/ready` 存在，ls 命令返回 0，表示执行成功，该 POD 将被视为准备好接收请求状态。
