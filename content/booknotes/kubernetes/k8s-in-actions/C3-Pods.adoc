@@ -1,0 +1,180 @@
+= Chapter 3. Pods: running containers in Kubernetes
+Zeliang Zhang <zzeliang@cn.ibm.com>
+2019-05-11
+:appversion: 1.0.0
+:source-highlighter: prettify
+:icons: font
+:stylesdir: ./styles
+:imagesdir: ./images
+:toc: left
+:toc-title: Chapter 3. Pods
+:toclevels: 4
+
+Pod 是 Kubernetes 中最小的部署单元，所有容器都运行在 Pod 中。Pod 至少包含一个容器，一个 POD 下的多个容器一定会被部署到同一 Kubernetes 工作节点下。
+
+Kubernetes 通过修改 Docker 的方式，将同一 POD 内的所有容器分配到同一 Linux namespace 下的方式，来达到 POD 中的容器共享目的。在同一 POD 下的所有容器都共享同一网络，这意味着他们拥有同一 hostname，共享同一 IP 地址和端口空间，容器之间可以进行 IPC(Inter-Process Communication) 通信。
+
+== Create PODS
+
+[source, yaml]
+----
+apiVersion: v1               #<1>
+kind: Pod                    #<2>
+metadata:
+  name: kubia-manual         #<3>
+spec:
+  containers:                #<4>
+  - image: luksa/kubia       #<5>
+    name: kubia              #<6>
+    ports:
+    - containerPort: 8080    #<7>
+      protocol: TCP
+----
+<1> 指定用于创建 POD 所使用的 api 版本号。
+<2> 创建一个 Pod 资源。
+<3> 在 metadata 下指定要创建的资源的名字。
+<4> 容器信息定义在 containers 属性内，它的值是一个列表类型，这意味着我们可以创建多个容器。
+<5> 第一个容器所使用的镜像。
+<6> 为该容器命名，如果包含多个镜像，使用镜像名来区分各个镜像。
+<7> 容器接收请求的端口。
+
+http://kubernetes.io/docs/api[Kubernetes API] 可以查看各个 API 下的属性信息，也可以使用 `kubectl explain` 命令获取。
+
+.查看定义时 Pod 所有可用的属性
+[source, shell]
+----
+$ kubectl explain pods
+DESCRIPTION:
+Pod is a collection of containers that can run on a host. This resource
+             is created by clients and scheduled onto hosts.
+FIELDS:
+   kind      <string>
+     Kind is a string value representing the REST resource this object
+     represents...
+   metadata  <Object>
+     Standard object\'s metadata...
+   spec      <Object>
+     Specification of the desired behavior of the pod...
+   status    <Object>
+     Most recently observed status of the pod. This data may not be up to
+     date...
+----
+
+.查看某一资源特定属性下的可用属性
+[source, shell]
+----
+$ kubectl explain pod.spec
+----
+
+[source, shell]
+----
+$ kubectl get pod kubia-manual -o yaml
+----
+
+获取 pod 名为 kubia-manual 的信息，并以 yaml 格式将信息打印出来。
+
+== 使用 Labels 组织 pods
+[source, shell]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-manual-v2
+  labels:
+    creation_method: manual          #<1>
+    env: prod                        #<1>
+spec:
+  containers:
+  - image: luksa/kubia
+    name: kubia
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+----
+<1> 创建两个 label。
+
+[source, shell]
+----
+$ kubectl get pods --show-lables
+NAME            READY  STATUS   RESTARTS  AGE LABELS
+kubia-manual    1/1    Running  0         16m <none>
+kubia-manual-v2 1/1    Running  0         2m  creat_method=manual,env=prod
+kubia-zxzij     1/1    Running  0         1d  run=kubia
+----
+
+通过 `--show-labels` 参数同时打印出 pod 的 labels 信息。
+
+.列出 creation_method 和 env 标签
+[source, shell]
+----
+$ kubectl get po -L creation_method,env
+NAME            READY   STATUS    RESTARTS   AGE   CREATION_METHOD   ENV
+kubia-manual    1/1     Running   0          16m   <none>            <none>
+kubia-manual-v2 1/1     Running   0          2m    manual            prod
+kubia-zxzij     1/1     Running   0          1d    <none>
+----
+
+.修改标签
+[source, shell]
+----
+$ kubectl label po kubia-manul creation_method=manual       #<1>
+$ kubectl lable po kubia-manual-v2 env=debug --overwrite    #<2>
+----
+<1> 为 pod 动态添加标签
+<2> 动态修改 pod 标签，注意，修改当前已经存在的标签时需要指定 --overwrite 参数
+
+.过滤 pod
+[source, shell]
+----
+$ kubectl get po -l creation_method=manual     #<1>
+$ kubectl get po -l env                        #<2>
+$ kubectl get po -l '!env'                     #<3>
+$ kubectl get po -l creationg_method!=env      #<4>
+$ kubectl get po -l env in (prod,devel)        #<5>
+$ kubectl get po -l env notin (prod,devel)     #<6>
+----
+<1> 列出所有包含有 creation_method 标签，且其值是 manual 的 pod。
+<2> 列出所有包含有 env 标签的 pod。
+<3> 不包含 env 标签的 pod，注意使用单引号来禁止 shell 对 ! 进行特殊操作。
+<4> 包含有 creation_method 标签，且其值不等于 env 的pod。
+<5> 所有包含 env 标签，且其值为 prod 或 devel 的 pod。
+<6> 所有包含 env 标签，且其值既不是 prod，也不是 devel 的 pod。
+
+== 指定 Pod 的部署节点
+Labels 可以被应用到任何 Kubernetes 资源上，包括工作节点 nodes。可以为不同节点设定不同的标签，在部署 Pod 时通过使用这些标签，将特定 Pod 部署到特定的工作节点上。
+
+[source, shell]
+----
+$ kubectl lable node node1 gpu=true
+----
+
+.为 pod 指定要部署到的节点
+[source, yaml]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubia-gpu
+spec:
+  nodeSelector:               #<1>
+    gpu: "true"               #<1>
+  containers:
+  - image: luksa/kubia
+    name: kubia
+----
+<1> 将 pod 部署到设定了 gpu=true 标签的节点上。
+
+Kubernetes 会自动为每个 pod 设定一个名字为 `kubernetes.io/hostname` 的标签，其值为当前 node 的 hostname，利用该标签可以将 pod 部署到某个明确的节点上。但这样做的后果是，一旦节点下线，pod 将无法为创建，因此最好使用标签自定义一组特殊节点做部署。
+
+== Annotation
+与标签类似，annotation 也是由一组键值对构成，但并没有提供类似标签那样的选择器。
+
+Kubernetes 在引入新功能时经常会用到 annotation。通常，还处在 alpha 和 beta 版本中的新功能不会在 API 中引入新字段，而是通过在 annotaions 中指定来使用新功能，而一旦该功能稳定后，就会在 API 中添加对应的字段，此时将会废除 annotations 中的字段。
+
+=== 动态为 pod 添加 annotations
+
+[source, shell]
+----
+$ kubectl annotate pod kubia-manual mycompany.com/someannotation='{"foo": "bar"}' #<1>
+----
+<1> 动态添加 annotation，且值为 JSON 对象，注意这里使用的键名，这样写可以尽量避免 key 被其它工具重写。
